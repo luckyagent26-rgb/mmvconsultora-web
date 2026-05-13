@@ -66,3 +66,45 @@
   .lead{font-size:19px}
   .card p,.section p,.cta p{font-size:17px}
 }
+
+.mobileSticky{display:none}
+
+@media (max-width: 760px){
+  .nav{position:sticky;display:block;padding:14px 16px 10px}
+  .brand{justify-content:center;margin-bottom:12px}
+  .nav nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .nav nav a{display:flex;align-items:center;justify-content:center;min-height:38px;border:1px solid var(--line);border-radius:999px;background:#fffdf8;font-size:13px;font-weight:800;color:var(--green)}
+  .hero{display:block;padding:34px 18px 26px;background:linear-gradient(180deg,#f8f8f1 0,#eef3e8 100%)}
+  .heroText{max-width:100%}
+  .hero h1{font-size:40px;line-height:1.02;margin:12px 0 14px;letter-spacing:-.045em}
+  .lead{font-size:19px;line-height:1.45;margin-bottom:0}
+  .actions{margin:22px 0 14px}
+  .actions .secondary{display:none}
+  .audit{margin-top:22px;padding:20px;border-radius:22px;box-shadow:none;background:#fffdf8}
+  .audit h2{font-size:28px;margin-bottom:16px}
+  .audit li{font-size:16px;line-height:1.35}
+  .strip{display:grid;grid-template-columns:repeat(2,1fr);padding:18px;gap:8px}
+  .strip span{text-align:center;font-size:14px;line-height:1.2}
+  .section{padding:46px 18px}
+  .sectionHead{margin-bottom:18px}
+  .section h2,.cta h2{font-size:32px;line-height:1.05;margin-bottom:12px}
+  .grid3{gap:12px}
+  .card{padding:20px;border-radius:20px;box-shadow:none}
+  .card h3{font-size:22px;margin:14px 0 8px}
+  .card p,.section p,.cta p{font-size:17px;line-height:1.48}
+  .agents{padding-top:48px;padding-bottom:48px;border-radius:0}
+  .agents ul{gap:9px}
+  .agents li{font-size:16px;padding:12px;border-radius:14px}
+  .split{gap:24px}
+  .timeline{gap:10px}
+  .impact{padding-top:44px;padding-bottom:44px}
+  .cta{margin:0 18px 92px;padding:28px 20px;border-radius:24px}
+  .mobileSticky{position:fixed;display:flex;align-items:center;justify-content:center;gap:8px;left:14px;right:14px;bottom:14px;z-index:20;min-height:54px;padding:14px 18px;border-radius:999px;background:var(--green);color:#fff;font-weight:900;box-shadow:0 16px 42px rgba(16,32,27,.28)}
+}
+
+@media (max-width: 420px){
+  .hero h1{font-size:36px}
+  .lead{font-size:18px}
+  .section h2,.cta h2{font-size:30px}
+  .nav nav a{font-size:12px}
+}

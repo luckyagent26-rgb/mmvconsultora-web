@@ -21,7 +21,7 @@ function App(){
   return <>
     <header className="nav">
       <a className="brand" href="#top"><span>MV</span><strong>Manuel Vasena</strong></a>
-      <nav><a href="#servicios">Servicios</a><a href="#metodo">Método</a><a href="#contacto">Contacto</a></nav>
+      <nav><a href="#servicios">Servicios</a><a href="#agentes">Agentes IA</a><a href="#contacto">Contacto</a></nav>
     </header>
 
     <main id="top">
@@ -50,7 +50,7 @@ function App(){
         <div className="grid3">{services.map(({icon:Icon,title,text,featured}) => <article className={`card ${featured ? 'featuredService' : ''}`} key={title}><Icon/><h3>{title}</h3><p>{text}</p></article>)}</div>
       </section>
 
-      <section className="section agents">
+      <section id="agentes" className="section agents">
         <div>
           <p className="eyebrow"><Bot size={16}/> Digitalización aplicada</p>
           <h2>Agentes personalizados para eficiencia operativa.</h2>
@@ -74,6 +74,7 @@ function App(){
         <div className="ctaActions"><a className="btn primary light" href={WHATSAPP_URL} target="_blank" rel="noreferrer">Pedir contraseña <ArrowRight size={18}/></a><a className="btn ghostLight" href={PRE_DIAGNOSTICO_URL} target="_blank" rel="noreferrer">Abrir Pre Diagnóstico</a></div>
       </section>
     </main>
+    <a className="mobileSticky" href={WHATSAPP_URL} target="_blank" rel="noreferrer">Pedir contraseña por WhatsApp <ArrowRight size={17}/></a>
     <footer>© {new Date().getFullYear()} Manuel Vasena Consultoría · Optimización operativa agroindustrial</footer>
   </>
 }
