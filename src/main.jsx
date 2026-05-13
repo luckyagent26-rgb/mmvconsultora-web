@@ -31,7 +31,7 @@ function App(){
           <h1>Más control, rentabilidad y capacidad de ejecución para empresas agroindustriales.</h1>
           <p className="lead">Ayudo a empresas familiares y pymes del agro, frigoríficos, feedlots, molinos y plantas alimentarias a ordenar procesos, costos, logística y gestión operativa sin agregar complejidad innecesaria.</p>
           <div className="actions">
-            <a className="btn primary" href="#contacto">Contacto <ArrowRight size={18}/></a>
+            <a className="btn primary" href={WHATSAPP_URL} target="_blank" rel="noreferrer">Contacto <ArrowRight size={18}/></a>
             <a className="btn secondary" href={PRE_DIAGNOSTICO_URL} target="_blank" rel="noreferrer">Abrir Pre Diagnóstico</a>
           </div>
           <div className="proof"><ShieldCheck size={18}/> +15 años en operaciones agroindustriales e industriales</div>
