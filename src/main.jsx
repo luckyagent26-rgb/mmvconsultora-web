@@ -6,6 +6,7 @@ import './styles.css';
 const sectors = ['Frigoríficos', 'Feedlots', 'Molinos', 'Plantas alimentarias', 'Lácteos', 'Establecimientos agropecuarios'];
 const pains = ['Costos que suben sin explicación operativa clara', 'Decisiones apoyadas en planillas dispersas', 'Dependencia excesiva de personas clave', 'Producción, logística y administración trabajando desalineadas'];
 const PRE_DIAGNOSTICO_URL = 'https://chatgpt.com/g/g-69f103d074c48191a1eb8cad0f4bc571-pre-diagnostivo-de-eficiencia-operativa';
+const WHATSAPP_URL = 'https://wa.me/5493515724901?text=Hola%20Manuel%2C%20quiero%20usar%20el%20Pre%20Diagn%C3%B3stico%20Express.%20%C2%BFMe%20pas%C3%A1s%20la%20contrase%C3%B1a%20de%20uso%3F';
 
 const services = [
   { icon: ClipboardCheck, title: 'Diagnóstico de Rentabilidad Operativa', text: 'Un proceso corto y concreto para detectar pérdidas, cuellos de botella y oportunidades de mejora medibles.' },
@@ -30,8 +31,8 @@ function App(){
           <h1>Más control, rentabilidad y capacidad de ejecución para empresas agroindustriales.</h1>
           <p className="lead">Ayudo a frigoríficos, feedlots, molinos y plantas alimentarias a ordenar procesos, costos, logística y gestión operativa sin agregar complejidad innecesaria.</p>
           <div className="actions">
-            <a className="btn primary" href={PRE_DIAGNOSTICO_URL} target="_blank" rel="noreferrer">Abrir Pre Diagnóstico <ArrowRight size={18}/></a>
-            <a className="btn secondary" href="#servicios">Ver enfoque</a>
+            <a className="btn primary" href={WHATSAPP_URL} target="_blank" rel="noreferrer">Pedir contraseña por WhatsApp <ArrowRight size={18}/></a>
+            <a className="btn secondary" href={PRE_DIAGNOSTICO_URL} target="_blank" rel="noreferrer">Abrir Pre Diagnóstico</a>
           </div>
           <div className="proof"><ShieldCheck size={18}/> +15 años en operaciones agroindustriales e industriales</div>
         </div>
@@ -69,8 +70,8 @@ function App(){
       </section>
 
       <section id="contacto" className="cta">
-        <div><p className="eyebrow"><TrendingUp size={16}/> Próximo paso</p><h2>Empezá por un Pre Diagnóstico Express.</h2><p>Una primera lectura para entender si hay oportunidades reales de mejora en costos, procesos, logística o gestión.</p></div>
-        <a className="btn primary light" href={PRE_DIAGNOSTICO_URL} target="_blank" rel="noreferrer">Abrir herramienta <ArrowRight size={18}/></a>
+        <div><p className="eyebrow"><TrendingUp size={16}/> Próximo paso</p><h2>Empezá por un Pre Diagnóstico Express.</h2><p>Una primera lectura para entender si hay oportunidades reales de mejora en costos, procesos, logística o gestión. Para usarlo, escribime por WhatsApp y te paso la contraseña de uso.</p></div>
+        <div className="ctaActions"><a className="btn primary light" href={WHATSAPP_URL} target="_blank" rel="noreferrer">Pedir contraseña <ArrowRight size={18}/></a><a className="btn ghostLight" href={PRE_DIAGNOSTICO_URL} target="_blank" rel="noreferrer">Abrir Pre Diagnóstico</a></div>
       </section>
     </main>
     <footer>© {new Date().getFullYear()} Manuel Vasena Consultoría · Optimización operativa agroindustrial</footer>
