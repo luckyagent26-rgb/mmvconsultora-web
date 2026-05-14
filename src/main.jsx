@@ -7,6 +7,8 @@ const sectors = ['Frigoríficos', 'Feedlots', 'Molinos', 'Plantas alimentarias',
 const pains = ['Costos que suben sin explicación operativa clara', 'Decisiones apoyadas en planillas dispersas', 'Dependencia excesiva de personas clave', 'Producción, logística y administración trabajando desalineadas'];
 const PRE_DIAGNOSTICO_URL = 'https://chatgpt.com/g/g-69f103d074c48191a1eb8cad0f4bc571-pre-diagnostivo-de-eficiencia-operativa';
 const WHATSAPP_URL = 'https://wa.me/5493515724901?text=Hola%20Manuel%2C%20quiero%20usar%20el%20Pre%20Diagn%C3%B3stico%20Express.%20%C2%BFMe%20pas%C3%A1s%20la%20contrase%C3%B1a%20de%20uso%3F';
+const CONTACT_URL = 'https://wa.me/5493515724901?text=Hola%20Manuel%2C%20quiero%20conversar%20sobre%20una%20mejora%20operativa%20para%20mi%20empresa.';
+const LINKEDIN_URL = 'https://ar.linkedin.com/in/manuelvasena';
 
 const services = [
   { icon: ClipboardCheck, title: 'Diagnóstico de Rentabilidad Operativa', text: 'Un proceso corto y concreto para detectar pérdidas, cuellos de botella y oportunidades de mejora medibles.' },
@@ -21,7 +23,7 @@ function App(){
   return <>
     <header className="nav">
       <a className="brand" href="#top"><span>MV</span><strong>Manuel Vasena</strong></a>
-      <nav><a href="#servicios">Servicios</a><a href="#agentes">Agentes IA</a><a href="#contacto">Contacto</a></nav>
+      <nav><a href="#servicios">Servicios</a><a href="#sobre-mi">Sobre mí</a><a href="#contacto">Contacto</a></nav>
     </header>
 
     <main id="top">
@@ -31,7 +33,7 @@ function App(){
           <h1>Más control, rentabilidad y capacidad de ejecución para empresas agroindustriales.</h1>
           <p className="lead">Ayudo a empresas familiares y pymes del agro, frigoríficos, feedlots, molinos y plantas alimentarias a ordenar procesos, costos, logística y gestión operativa sin agregar complejidad innecesaria.</p>
           <div className="actions">
-            <a className="btn primary" href={WHATSAPP_URL} target="_blank" rel="noreferrer">Contacto <ArrowRight size={18}/></a>
+            <a className="btn primary" href={CONTACT_URL} target="_blank" rel="noreferrer">Contacto <ArrowRight size={18}/></a>
             <a className="btn secondary" href={PRE_DIAGNOSTICO_URL} target="_blank" rel="noreferrer">Abrir Pre Diagnóstico</a>
           </div>
           <div className="proof"><ShieldCheck size={18}/> +15 años en operaciones agroindustriales e industriales</div>
@@ -58,6 +60,29 @@ function App(){
           <p className="agentCta">Si tu operación depende de WhatsApps, planillas y personas clave, un agente bien diseñado puede ayudarte a recuperar control.</p>
         </div>
         <ul>{agentUseCases.map(item => <li key={item}><CheckCircle2 size={18}/>{item}</li>)}</ul>
+      </section>
+
+
+      <section id="sobre-mi" className="section about">
+        <div className="aboutCard">
+          <div className="aboutInitials">MV</div>
+          <div>
+            <p className="eyebrow"><ShieldCheck size={16}/> Sobre mí</p>
+            <h2>Manuel Vasena</h2>
+            <p className="aboutLead">Soy consultor independiente de optimización operativa agroindustrial, con base en Córdoba, Argentina.</p>
+            <p>Trabajo con empresas familiares y pymes del agro, ganadería y agroindustria para ordenar procesos, costos, logística, KPIs y rutinas de gestión. Mi foco es detectar pérdidas concretas y convertirlas en decisiones simples, medibles y ejecutables.</p>
+            <div className="aboutFacts">
+              <span>+15 años en operaciones agroindustriales e industriales</span>
+              <span>Frigoríficos · Feedlots · Molinos · Lácteos · Alimentos</span>
+              <span>Córdoba, Argentina · Trabajo regional LatAm</span>
+            </div>
+            <div className="aboutLinks">
+              <a href={CONTACT_URL} target="_blank" rel="noreferrer">WhatsApp</a>
+              <a href="mailto:mvasena1@gmail.com">mvasena1@gmail.com</a>
+              <a href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn</a>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section id="metodo" className="section split">
