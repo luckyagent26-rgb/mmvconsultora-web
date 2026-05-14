@@ -23,7 +23,7 @@ function App(){
   return <>
     <header className="nav">
       <a className="brand" href="#top"><span>MV</span><strong>Manuel Vasena</strong></a>
-      <nav><a href="#servicios">Servicios</a><a href="#sobre-mi">Sobre mí</a><a href="#contacto">Contacto</a></nav>
+      <nav><a href="#servicios">Servicios</a><a href="#sobre-mi">Sobre mí</a><a href="#contacto">Pre Diagnóstico</a><a href="#contacto">Contacto</a></nav>
     </header>
 
     <main id="top">
