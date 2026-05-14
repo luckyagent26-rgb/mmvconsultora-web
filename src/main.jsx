@@ -78,7 +78,7 @@ function App(){
             </div>
             <div className="aboutLinks">
               <a href={CONTACT_URL} target="_blank" rel="noreferrer">WhatsApp</a>
-              <a href="mailto:mvasena1@gmail.com">mvasena1@gmail.com</a>
+              <a href="mailto:mmvasena@gmail.com">mmvasena@gmail.com</a>
               <a href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn</a>
             </div>
           </div>
