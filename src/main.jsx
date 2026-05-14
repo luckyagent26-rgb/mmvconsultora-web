@@ -69,7 +69,7 @@ function App(){
           <div>
             <p className="eyebrow"><ShieldCheck size={16}/> Sobre mí</p>
             <h2>Manuel Vasena</h2>
-            <p className="aboutLead">Soy Ingeniero Agrónomo, MBA y consultor independiente de optimización operativa agroindustrial, con base en Córdoba, Argentina.</p>
+            <p className="aboutLead">Soy Ingeniero Agrónomo, MBA y consultor independiente de optimización operativa para el agro y la agroindustria, con base en Córdoba, Argentina.</p>
             <p>Trabajo con empresas familiares y pymes del agro, ganadería y agroindustria para ordenar procesos, costos, logística, KPIs y rutinas de gestión. Mi foco es detectar pérdidas concretas y convertirlas en decisiones simples, medibles y ejecutables.</p>
             <div className="aboutFacts">
               <span>Ingeniero Agrónomo · MBA</span>
