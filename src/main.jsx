@@ -30,7 +30,7 @@ function App(){
       <section className="hero">
         <div className="heroText">
           <p className="eyebrow"><MapPin size={16}/> Córdoba, Argentina · Consultoría agroindustrial</p>
-          <h1>Más control, rentabilidad y capacidad de ejecución para empresas agroindustriales.</h1>
+          <h1>Más control, rentabilidad y capacidad de ejecución para empresas del agro y la agroindustria.</h1>
           <p className="lead">Ayudo a empresas familiares y pymes del agro, frigoríficos, feedlots, molinos y plantas alimentarias a ordenar procesos, costos, logística y gestión operativa sin agregar complejidad innecesaria.</p>
           <div className="actions">
             <a className="btn primary" href={CONTACT_URL} target="_blank" rel="noreferrer">Contacto <ArrowRight size={18}/></a>
