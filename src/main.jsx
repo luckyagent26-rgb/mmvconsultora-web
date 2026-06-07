@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArrowRight, BarChart3, Factory, Gauge, LineChart, MapPin, ShieldCheck, ClipboardCheck, TrendingUp, Wheat, CheckCircle2, Bot } from 'lucide-react';
+import { ArrowRight, BarChart3, Factory, Gauge, LineChart, MapPin, ShieldCheck, ClipboardCheck, TrendingUp, Wheat, CheckCircle2, Bot, Newspaper } from 'lucide-react';
 import './styles.css';
 
 const sectors = ['Frigoríficos', 'Feedlots', 'Molinos', 'Plantas alimentarias', 'Lácteos', 'Establecimientos agropecuarios'];
@@ -9,6 +9,7 @@ const PRE_DIAGNOSTICO_URL = 'https://chatgpt.com/g/g-69f103d074c48191a1eb8cad0f4
 const WHATSAPP_URL = 'https://wa.me/5493515724901?text=Hola%20Manuel%2C%20quiero%20usar%20el%20Pre%20Diagn%C3%B3stico%20Express.%20%C2%BFMe%20pas%C3%A1s%20la%20contrase%C3%B1a%20de%20uso%3F';
 const CONTACT_URL = 'https://wa.me/5493515724901?text=Hola%20Manuel%2C%20quiero%20conversar%20sobre%20una%20mejora%20operativa%20para%20mi%20empresa.';
 const LINKEDIN_URL = 'https://ar.linkedin.com/in/manuelvasena';
+const NEWSLETTER_URL = 'https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7457802799171665921';
 
 const services = [
   { icon: ClipboardCheck, title: 'Diagnóstico de Rentabilidad Operativa', text: 'Un proceso corto y concreto para detectar pérdidas, cuellos de botella y oportunidades de mejora medibles.' },
@@ -23,7 +24,7 @@ function App(){
   return <>
     <header className="nav">
       <a className="brand" href="#top"><span>MV</span><strong>Manuel Vasena</strong></a>
-      <nav><a href="#servicios">Servicios</a><a href="#sobre-mi">Sobre mí</a><a href="#contacto">Pre Diagnóstico</a><a href="#contacto">Contacto</a></nav>
+      <nav><a href="#servicios">Servicios</a><a href="#sobre-mi">Sobre mí</a><a href="#newsletter">Newsletter</a><a href="#contacto">Contacto</a></nav>
     </header>
 
     <main id="top">
@@ -84,6 +85,20 @@ function App(){
             </div>
           </div>
         </div>
+      </section>
+
+      <section id="newsletter" className="section newsletter">
+        <div className="newsletterCopy">
+          <p className="eyebrow"><Newspaper size={16}/> Newsletter semanal</p>
+          <h2>Cómo crecer con rentabilidad.</h2>
+          <p>Casos reales, desorden operativo y señales que muchas pymes no ven cuando crecen. Comparto historias de empresas que aumentan ventas, ganan complejidad y necesitan recuperar control sin perder velocidad.</p>
+          <a className="btn primary" href={NEWSLETTER_URL} target="_blank" rel="noreferrer">Leer en LinkedIn <ArrowRight size={18}/></a>
+        </div>
+        <article className="newsletterCard">
+          <span>LinkedIn Newsletter</span>
+          <h3>Historias de clientes, aprendizajes operativos y crecimiento rentable.</h3>
+          <p>Una lectura semanal para dueños, directores y equipos de pymes agroindustriales que quieren detectar fugas de margen antes de que se vuelvan costumbre.</p>
+        </article>
       </section>
 
       <section id="metodo" className="section split">
