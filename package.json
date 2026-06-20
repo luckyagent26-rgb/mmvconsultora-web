@@ -1,1 +1,1 @@
-{"scripts":{"dev":"vite --host 0.0.0.0","build":"vite build","preview":"vite preview --host 0.0.0.0"},"dependencies":{"@netlify/blobs":"^10.7.9","@vitejs/plugin-react":"latest","lucide-react":"latest","react":"latest","react-dom":"latest","vite":"latest"}}
+{"scripts":{"dev":"vite --host 0.0.0.0","build":"rm -rf dist && mkdir -p dist && cp site/index.html dist/index.html","preview":"vite preview --host 0.0.0.0"},"dependencies":{"@netlify/blobs":"^10.7.9","@vitejs/plugin-react":"latest","lucide-react":"latest","react":"latest","react-dom":"latest","vite":"latest"}}
