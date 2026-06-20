@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArrowRight, BarChart3, Factory, Gauge, LineChart, MapPin, ShieldCheck, ClipboardCheck, TrendingUp, Wheat, CheckCircle2, Bot, Newspaper } from 'lucide-react';
+import { ArrowRight, BarChart3, Factory, Gauge, LineChart, MapPin, ShieldCheck, ClipboardCheck, TrendingUp, Wheat, CheckCircle2, Bot, Newspaper, FileText, Upload, Eye, Download } from 'lucide-react';
 import './styles.css';
 
 const sectors = ['Frigoríficos', 'Feedlots', 'Molinos', 'Plantas alimentarias', 'Lácteos', 'Establecimientos agropecuarios'];
@@ -20,11 +20,126 @@ const services = [
 const agentUseCases = ['Automatización de reportes operativos', 'Seguimiento de tareas y responsables', 'Lectura y resumen de partes diarios', 'Alertas sobre KPIs críticos', 'Asistentes internos para procedimientos', 'Integración simple con planillas, WhatsApp, formularios o dashboards'];
 const steps = ['Relevamiento rápido del proceso y datos disponibles', 'Análisis de pérdidas, costos, capacidad y puntos críticos', 'Priorización de mejoras por impacto y facilidad de ejecución', 'Plan de acción con tablero de seguimiento'];
 
+function formatFileSize(bytes) {
+  if (!bytes && bytes !== 0) return '';
+  if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('No se pudo leer el archivo.'));
+    reader.readAsDataURL(file);
+  });
+}
+
+function PdfResources() {
+  const [pdfs, setPdfs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState('');
+  const [form, setForm] = useState({ password: '', title: '', file: null });
+
+  async function loadPdfs() {
+    setLoading(true);
+    try {
+      const response = await fetch('/.netlify/functions/pdfs');
+      const data = await response.json();
+      if (!response.ok || !data.ok) throw new Error(data.error || 'No se pudieron cargar los PDFs.');
+      setPdfs(data.pdfs || []);
+    } catch (error) {
+      setStatus(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    loadPdfs();
+  }, []);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (!form.file) {
+      setStatus('Seleccioná un PDF.');
+      return;
+    }
+    if (form.file.type && form.file.type !== 'application/pdf') {
+      setStatus('Solo se pueden cargar archivos PDF.');
+      return;
+    }
+    setStatus('Cargando PDF...');
+    try {
+      const content = await fileToDataUrl(form.file);
+      const response = await fetch('/.netlify/functions/pdfs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          password: form.password,
+          title: form.title,
+          filename: form.file.name,
+          content,
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.ok) throw new Error(data.error || 'No se pudo cargar el PDF.');
+      setForm({ password: form.password, title: '', file: null });
+      event.currentTarget.reset();
+      setStatus('PDF cargado correctamente.');
+      await loadPdfs();
+    } catch (error) {
+      setStatus(error.message);
+    }
+  }
+
+  return (
+    <section id="recursos" className="section resources">
+      <div className="sectionHead">
+        <p className="eyebrow"><FileText size={16}/> Recursos PDF</p>
+        <h2>Documentos para ver online o descargar.</h2>
+        <p>Materiales, guías y documentos que comparto con clientes y contactos. Podés abrirlos en el navegador o descargarlos para leerlos después.</p>
+      </div>
+
+      <div className="resourcePanel">
+        <div className="pdfGrid">
+          {loading ? <p className="emptyState">Cargando documentos...</p> : null}
+          {!loading && !pdfs.length ? <p className="emptyState">Todavía no hay PDFs publicados.</p> : null}
+          {pdfs.map(pdf => (
+            <article className="pdfCard" key={pdf.id}>
+              <div className="pdfIcon"><FileText size={26}/></div>
+              <div>
+                <h3>{pdf.title}</h3>
+                <p>{pdf.filename} · {formatFileSize(pdf.size)}</p>
+                <div className="pdfLinks">
+                  <a href={pdf.viewUrl} target="_blank" rel="noreferrer"><Eye size={17}/> Ver online</a>
+                  <a href={pdf.downloadUrl}><Download size={17}/> Descargar</a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <details className="uploadPanel">
+          <summary><Upload size={17}/> Cargar nuevo PDF</summary>
+          <form onSubmit={handleSubmit}>
+            <label>Clave de carga<input type="password" value={form.password} onChange={event => setForm({ ...form, password: event.target.value })} required /></label>
+            <label>Título visible<input value={form.title} onChange={event => setForm({ ...form, title: event.target.value })} placeholder="Ej: Guía de diagnóstico operativo" /></label>
+            <label>Archivo PDF<input type="file" accept="application/pdf,.pdf" onChange={event => setForm({ ...form, file: event.target.files?.[0] || null })} required /></label>
+            <button className="btn primary" type="submit">Subir PDF</button>
+            {status ? <p className="uploadStatus">{status}</p> : null}
+          </form>
+        </details>
+      </div>
+    </section>
+  );
+}
+
 function App(){
   return <>
     <header className="nav">
       <a className="brand" href="#top"><span>MV</span><strong>Manuel Vasena</strong></a>
-      <nav><a href="#servicios">Servicios</a><a href="#sobre-mi">Sobre mí</a><a href="#newsletter">Newsletter</a><a href="#contacto">Contacto</a></nav>
+      <nav><a href="#servicios">Servicios</a><a href="#sobre-mi">Sobre mí</a><a href="#newsletter">Newsletter</a><a href="#recursos">PDFs</a><a href="#contacto">Contacto</a></nav>
     </header>
 
     <main id="top">
@@ -100,6 +215,8 @@ function App(){
           <p>Una lectura semanal para dueños, directores y equipos de pymes agroindustriales que quieren detectar fugas de margen antes de que se vuelvan costumbre.</p>
         </article>
       </section>
+
+      <PdfResources />
 
       <section id="metodo" className="section split">
         <div><p className="eyebrow"><LineChart size={16}/> Método</p><h2>Diagnóstico claro, números accionables y ejecución posible.</h2><p>El foco no es producir informes largos: es encontrar los pocos puntos que explican la mayor parte de la pérdida o desorden operativo, y convertirlos en decisiones.</p></div>
