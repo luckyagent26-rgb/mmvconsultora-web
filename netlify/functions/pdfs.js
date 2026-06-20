@@ -7,8 +7,16 @@ const MAX_PDF_BYTES = 20 * 1024 * 1024;
 function getPdfStore() {
   const siteID = process.env.NETLIFY_SITE_ID || process.env.SITE_ID;
   const token = process.env.NETLIFY_BLOBS_TOKEN || process.env.NETLIFY_AUTH_TOKEN;
-  if (siteID && token) return getStore({ name: STORE_NAME, siteID, token });
-  return getStore(STORE_NAME);
+  if (!siteID || !token) {
+    const missing = [
+      !siteID ? 'NETLIFY_SITE_ID' : null,
+      !token ? 'NETLIFY_BLOBS_TOKEN o NETLIFY_AUTH_TOKEN' : null,
+    ].filter(Boolean).join(', ');
+    const error = new Error(`Faltan variables de entorno para PDFs: ${missing}.`);
+    error.code = 'PDF_ENV_MISSING';
+    throw error;
+  }
+  return getStore({ name: STORE_NAME, siteID, token });
 }
 
 function json(statusCode, payload) {
@@ -52,7 +60,13 @@ async function readIndex(store) {
 }
 
 exports.handler = async (event) => {
-  const store = getPdfStore();
+  let store;
+  try {
+    store = getPdfStore();
+  } catch (error) {
+    if (error.code === 'PDF_ENV_MISSING') return json(500, { ok: false, error: error.message });
+    throw error;
+  }
   const method = event.httpMethod;
 
   if (method === 'GET') {
