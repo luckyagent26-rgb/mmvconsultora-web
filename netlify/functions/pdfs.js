@@ -4,6 +4,13 @@ const STORE_NAME = 'mmv-pdfs';
 const INDEX_KEY = 'index.json';
 const MAX_PDF_BYTES = 20 * 1024 * 1024;
 
+function getPdfStore() {
+  const siteID = process.env.NETLIFY_SITE_ID || process.env.SITE_ID;
+  const token = process.env.NETLIFY_BLOBS_TOKEN || process.env.NETLIFY_AUTH_TOKEN;
+  if (siteID && token) return getStore({ name: STORE_NAME, siteID, token });
+  return getStore(STORE_NAME);
+}
+
 function json(statusCode, payload) {
   return {
     statusCode,
@@ -45,7 +52,7 @@ async function readIndex(store) {
 }
 
 exports.handler = async (event) => {
-  const store = getStore(STORE_NAME);
+  const store = getPdfStore();
   const method = event.httpMethod;
 
   if (method === 'GET') {
