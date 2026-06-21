@@ -1516,50 +1516,6 @@
       background: var(--blanco);
     }
 
-    .pdf-upload-panel {
-      max-width: 720px;
-      background: var(--blanco);
-      border: 1px solid rgba(13, 42, 33, 0.10);
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    .pdf-upload-panel summary {
-      cursor: pointer;
-      padding: 17px 20px;
-      color: var(--verde);
-      font-weight: 900;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    .pdf-upload-form {
-      display: grid;
-      gap: 13px;
-      padding: 0 20px 20px;
-    }
-
-    .pdf-upload-form label {
-      display: grid;
-      gap: 7px;
-      font-size: 13px;
-      color: var(--verde);
-      font-weight: 800;
-    }
-
-    .pdf-upload-form input {
-      min-height: 44px;
-      border: 1px solid rgba(13, 42, 33, 0.16);
-      border-radius: 12px;
-      padding: 10px 12px;
-      font: inherit;
-    }
-
-    .pdf-upload-form button {
-      width: max-content;
-      border: none;
-      cursor: pointer;
-    }
-
     /* ─── FOOTER ──────────────────────────────────────────── */
     footer {
       background: #060f0a;
@@ -2376,22 +2332,6 @@
       <div class="pdf-grid" id="pdf-list">
         <p class="pdf-empty">Cargando documentos...</p>
       </div>
-      <details class="pdf-upload-panel">
-        <summary>📄 Cargar nuevo PDF</summary>
-        <form class="pdf-upload-form" id="pdf-upload-form">
-          <label>Clave de carga
-            <input name="password" type="password" autocomplete="off" required>
-          </label>
-          <label>Título visible
-            <input name="title" placeholder="Ej: Guía de diagnóstico operativo">
-          </label>
-          <label>Archivo PDF
-            <input name="pdf" type="file" accept="application/pdf,.pdf" required>
-          </label>
-          <button class="btn-primary" type="submit">Subir PDF →</button>
-          <p class="pdf-status" id="pdf-upload-status"></p>
-        </form>
-      </details>
     </div>
   </section>
 
@@ -3372,9 +3312,7 @@
   <script>
     (function(){
       const list = document.getElementById('pdf-list');
-      const form = document.getElementById('pdf-upload-form');
-      const status = document.getElementById('pdf-upload-status');
-      if (!list || !form) return;
+      if (!list) return;
 
       function escapeHtml(value) {
         return String(value || '').replace(/[&<>"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
@@ -3384,15 +3322,6 @@
         if (!bytes && bytes !== 0) return '';
         if (bytes < 1024 * 1024) return Math.max(1, Math.round(bytes / 1024)) + ' KB';
         return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-      }
-
-      function fileToDataUrl(file) {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = () => reject(new Error('No se pudo leer el archivo.'));
-          reader.readAsDataURL(file);
-        });
       }
 
       function renderPdfs(pdfs) {
@@ -3425,33 +3354,6 @@
           list.innerHTML = '<p class="pdf-empty">La biblioteca de PDFs todavía no está configurada.</p>';
         }
       }
-
-      form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const file = form.pdf.files[0];
-        if (!file) return;
-        status.textContent = 'Cargando PDF...';
-        try {
-          const content = await fileToDataUrl(file);
-          const response = await fetch('/.netlify/functions/pdfs', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              password: form.password.value,
-              title: form.title.value,
-              filename: file.name,
-              content,
-            }),
-          });
-          const data = await response.json();
-          if (!response.ok || !data.ok) throw new Error(data.error || 'No se pudo cargar el PDF.');
-          form.reset();
-          status.textContent = 'PDF cargado correctamente.';
-          loadPdfs();
-        } catch (error) {
-          status.textContent = error.message;
-        }
-      });
 
       loadPdfs();
     })();

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArrowRight, BarChart3, Factory, Gauge, LineChart, MapPin, ShieldCheck, ClipboardCheck, TrendingUp, Wheat, CheckCircle2, Bot, Newspaper, FileText, Upload, Eye, Download } from 'lucide-react';
+import { ArrowRight, BarChart3, Factory, Gauge, LineChart, MapPin, ShieldCheck, ClipboardCheck, TrendingUp, Wheat, CheckCircle2, Bot, Newspaper, FileText, Eye, Download } from 'lucide-react';
 import './styles.css';
 
 const sectors = ['Frigoríficos', 'Feedlots', 'Molinos', 'Plantas alimentarias', 'Lácteos', 'Establecimientos agropecuarios'];
@@ -26,20 +26,10 @@ function formatFileSize(bytes) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-function fileToDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = () => reject(new Error('No se pudo leer el archivo.'));
-    reader.readAsDataURL(file);
-  });
-}
-
 function PdfResources() {
   const [pdfs, setPdfs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState('');
-  const [form, setForm] = useState({ password: '', title: '', file: null });
 
   async function loadPdfs() {
     setLoading(true);
@@ -58,40 +48,6 @@ function PdfResources() {
   useEffect(() => {
     loadPdfs();
   }, []);
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-    if (!form.file) {
-      setStatus('Seleccioná un PDF.');
-      return;
-    }
-    if (form.file.type && form.file.type !== 'application/pdf') {
-      setStatus('Solo se pueden cargar archivos PDF.');
-      return;
-    }
-    setStatus('Cargando PDF...');
-    try {
-      const content = await fileToDataUrl(form.file);
-      const response = await fetch('/.netlify/functions/pdfs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          password: form.password,
-          title: form.title,
-          filename: form.file.name,
-          content,
-        }),
-      });
-      const data = await response.json();
-      if (!response.ok || !data.ok) throw new Error(data.error || 'No se pudo cargar el PDF.');
-      setForm({ password: form.password, title: '', file: null });
-      event.currentTarget.reset();
-      setStatus('PDF cargado correctamente.');
-      await loadPdfs();
-    } catch (error) {
-      setStatus(error.message);
-    }
-  }
 
   return (
     <section id="recursos" className="section resources">
@@ -120,16 +76,7 @@ function PdfResources() {
           ))}
         </div>
 
-        <details className="uploadPanel">
-          <summary><Upload size={17}/> Cargar nuevo PDF</summary>
-          <form onSubmit={handleSubmit}>
-            <label>Clave de carga<input type="password" value={form.password} onChange={event => setForm({ ...form, password: event.target.value })} required /></label>
-            <label>Título visible<input value={form.title} onChange={event => setForm({ ...form, title: event.target.value })} placeholder="Ej: Guía de diagnóstico operativo" /></label>
-            <label>Archivo PDF<input type="file" accept="application/pdf,.pdf" onChange={event => setForm({ ...form, file: event.target.files?.[0] || null })} required /></label>
-            <button className="btn primary" type="submit">Subir PDF</button>
-            {status ? <p className="uploadStatus">{status}</p> : null}
-          </form>
-        </details>
+        {status ? <p className="emptyState">{status}</p> : null}
       </div>
     </section>
   );
