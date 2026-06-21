@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin PDF | MMV Consultoría</title>
+  <style>
+    :root {
+      --ink: #14231c;
+      --muted: #66736b;
+      --green: #174f3d;
+      --gold: #c9a84c;
+      --line: rgba(20, 35, 28, 0.16);
+      --bg: #f7f3ea;
+      --error: #9d2b22;
+      --ok: #226b3d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at top left, rgba(201,168,76,.2), transparent 32rem), var(--bg);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    main {
+      width: min(720px, 100%);
+      background: #fffdf8;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 22px 70px rgba(20,35,28,.14);
+      padding: clamp(24px, 5vw, 42px);
+    }
+    .brand {
+      margin: 0 0 8px;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 6vw, 44px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+    .intro {
+      margin: 14px 0 28px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    form { display: grid; gap: 16px; }
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 850;
+      color: var(--ink);
+    }
+    input {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      padding: 11px 13px;
+    }
+    input[type="file"] {
+      padding: 12px;
+      border-style: dashed;
+      background: rgba(23,79,61,.04);
+    }
+    button {
+      width: max-content;
+      min-height: 48px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--green);
+      color: #fff;
+      font: inherit;
+      font-weight: 900;
+      padding: 0 22px;
+      cursor: pointer;
+    }
+    button:disabled {
+      cursor: wait;
+      opacity: .68;
+    }
+    .status {
+      min-height: 24px;
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.45;
+      font-weight: 750;
+    }
+    .status.ok { color: var(--ok); }
+    .status.error { color: var(--error); }
+    .back {
+      display: inline-flex;
+      margin-top: 26px;
+      color: var(--green);
+      font-weight: 850;
+      text-decoration: none;
+    }
+    @media (max-width: 560px) {
+      body { padding: 14px; }
+      main { border-radius: 14px; padding: 22px; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="brand">MMV Consultoría</p>
+    <h1>Admin PDF</h1>
+    <p class="intro">Subí un PDF para publicarlo en la sección de recursos del sitio. Esta página no aparece en el menú público.</p>
+
+    <form id="pdf-form">
+      <label>
+        Clave privada
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+      </label>
+      <label>
+        Título visible
+        <input id="title" name="title" type="text" placeholder="Ej: Guía de productividad industrial">
+      </label>
+      <label>
+        Archivo PDF
+        <input id="file" name="file" type="file" accept="application/pdf,.pdf" required>
+      </label>
+      <button id="submit" type="submit">Subir PDF</button>
+      <p class="status" id="status" aria-live="polite"></p>
+    </form>
+
+    <a class="back" href="/">Volver al sitio</a>
+  </main>
+
+  <script>
+    const form = document.getElementById('pdf-form');
+    const status = document.getElementById('status');
+    const submit = document.getElementById('submit');
+
+    function setStatus(message, type) {
+      status.textContent = message;
+      status.className = type ? `status ${type}` : 'status';
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error('No se pudo leer el archivo.'));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const file = document.getElementById('file').files[0];
+      const password = document.getElementById('password').value;
+      const title = document.getElementById('title').value.trim();
+
+      if (!file) {
+        setStatus('Elegí un archivo PDF.', 'error');
+        return;
+      }
+      if (!file.name.toLowerCase().endsWith('.pdf')) {
+        setStatus('Solo se pueden subir archivos PDF.', 'error');
+        return;
+      }
+
+      submit.disabled = true;
+      setStatus('Subiendo PDF...', '');
+
+      try {
+        const content = await readFileAsDataUrl(file);
+        const response = await fetch('/.netlify/functions/pdfs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password, title, filename: file.name, content }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || 'No se pudo subir el PDF.');
+        form.reset();
+        setStatus('PDF publicado. Ya aparece en la sección pública.', 'ok');
+      } catch (error) {
+        setStatus(error.message || 'No se pudo subir el PDF.', 'error');
+      } finally {
+        submit.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
