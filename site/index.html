@@ -101,6 +101,8 @@
       align-items: center;
       gap: 8px;
       list-style: none;
+      justify-content: flex-end;
+      min-width: 0;
     }
 
     .nav-links a {
@@ -108,28 +110,59 @@
       text-decoration: none;
       font-size: 13px;
       font-weight: 500;
-      padding: 6px 14px;
-      border-radius: 6px;
-      transition: all 0.2s;
+      padding: 8px 13px;
+      border-radius: 999px;
+      transition: color 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
       font-family: 'Montserrat', sans-serif;
       letter-spacing: 0.03em;
+      border: 1px solid transparent;
+      line-height: 1;
+      white-space: nowrap;
     }
 
     .nav-links a:hover {
       color: var(--blanco);
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.11);
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    .nav-link-feature {
+      color: var(--blanco) !important;
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(201,168,76,0.28) !important;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+      font-weight: 700 !important;
+    }
+
+    .nav-link-feature:hover {
+      background: rgba(201,168,76,0.14);
+      border-color: rgba(201,168,76,0.55) !important;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.18);
     }
 
     .nav-cta {
-      background: var(--oro) !important;
+      position: relative;
+      isolation: isolate;
+      background: linear-gradient(135deg, var(--oro-claro), var(--oro)) !important;
       color: var(--verde) !important;
-      font-weight: 700 !important;
-      padding: 8px 20px !important;
+      font-weight: 800 !important;
+      padding: 11px 19px !important;
+      border: 1px solid rgba(255,255,255,0.28) !important;
+      box-shadow: 0 10px 28px rgba(201,168,76,0.24), inset 0 1px 0 rgba(255,255,255,0.35);
+      letter-spacing: 0.01em !important;
     }
 
     .nav-cta:hover {
-      background: var(--oro-claro) !important;
+      background: linear-gradient(135deg, #f0d77b, var(--oro)) !important;
       transform: translateY(-1px);
+      box-shadow: 0 14px 34px rgba(201,168,76,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+
+    @media (max-width: 1280px) {
+      .navbar { padding: 0 3.5%; }
+      .nav-links { gap: 5px; }
+      .nav-links a { font-size: 12px; padding: 8px 10px; }
+      .nav-cta { padding: 10px 14px !important; }
     }
 
     /* ─── HERO ───────────────────────────────────────────── */
@@ -1761,7 +1794,7 @@
       <li><a href="#servicios">Servicios</a></li>
       <li><a href="#diagnostico">Diagnóstico</a></li>
       <li><a href="#ia-agentes">IA &amp; Agentes</a></li>
-      <li><a href="#sobre-mi">Sobre mí</a></li>
+      <li><a href="#sobre-mi" class="nav-link-feature">Sobre mí</a></li>
       <li><a href="#newsletter">Newsletter</a></li>
       <li><a href="#pdfs">PDFs</a></li>
       <li><a href="#sectores">Sectores</a></li>
